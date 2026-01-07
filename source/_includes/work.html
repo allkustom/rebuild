@@ -1,0 +1,118 @@
+---
+layout: base.html
+---
+
+<!-- <link rel="stylesheet" href="/style.css" /> -->
+
+<div class="contentBox">
+  <div class="previewBox">
+    <div class="previewThumbnail">
+      {% if photo %}
+      <img src="{{ photo }}" alt="{{ title}}" />
+      {% else %}
+      <iframe
+        src="{{ video }}"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      >
+      </iframe>
+      {% endif %}
+    </div>
+    <div class="previewInfo">
+      <div class="previewTitle">BMD</div>
+      <div class="previewDetailBox">
+        <div class="previewDetails">
+          <h3>Medium / Tech</h3>
+          {% if mediumTech %}
+          <p>{{ mediumTech | join: " / " }}</p>
+          {% endif %}
+        </div>
+        <div class="previewDetails">
+          <h3>Project Date</h3>
+          {% if projectDate %}
+          <p>{{ projectDate | join: " - " }}</p>
+          {% endif %}
+        </div>
+        <div class="previewDetails">
+          <h3>Size</h3>
+          {% if size %}
+          <p>{{ size | join: " / " }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="mainBox">
+    <div class="descriptionBox">
+      <h1>Project Description</h1>
+                    {{page.excerpt | md }}
+
+      <!-- <strong>
+        {% if descriptionHead %}
+        {{ descriptionHead }}
+        {% endif %}
+      </strong>
+      <br />
+      <br />
+      <p>
+        {% if descriptionContent  %}
+        {{ descriptionContent }}
+        {% endif %}
+      </p> -->
+
+    </div>
+      {{content | stripExcerpt: page.excerpt}}
+    <!-- <div class="mainContent">
+    </div>  -->
+  </div>
+</div>
+  <!-- <div class="spacer"><div class="spacerLine"></div></div> -->
+
+<!-- <div class="recipeTopDiv">
+  <div class="recipeTitleBox">{{title}}</div>
+  <div class="recipreTotalBox">
+    <div class="recipeInfoBox">
+      <div class="recipeInfoHorBox">
+        <div class="recipeDetails">
+          <h1>Cook Time:</h1>
+          <p>{{time}} mins</p>
+        </div>
+        <div class="recipeDetails">
+          <h1>Prepare Time:</h1>
+          <p>{{preTime}} mins</p>
+        </div>
+        <div class="recipeDetails">
+          <h1>When:</h1>
+          <p>At <br> {{when}}</p>
+        </div>
+        <div class="recipeDetails">
+          <h1>Style:</h1>
+          <p>{{style}}</p>
+        </div>
+      </div>
+      <div class="recipeDetails" id="ingredientsDiv">
+        <h1>Ingredients:</h1>
+
+        {% for ingredients in ingredients %}
+        <div class="recipeIngreContents" data-ing="{{ forloop.index0 }}">
+          <p>
+          - {{ ingredients }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="recipeImage">
+      <img src="{{ photo }}" />
+    </div>
+  </div>
+</div>
+
+<div class="recipeBody">
+  {{content}}
+</div> -->

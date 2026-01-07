@@ -5,7 +5,7 @@
   --whiteSecond: #aeaeae;
   --strokeThick: 1px;
   --strokeThin: 0.25px;
-  --sidePanelWidth: 70px;
+  --sidePanelWidth: 65px;
   --topRightBorderRadius: 0px;
   --gridGap: 10px;
 }
@@ -59,7 +59,7 @@ body {
   width: 100%;
   height: var(--sidePanelWidth);
   /* aspect-ratio: 1 / 1; */
-  padding: 10px;
+  padding: 17.5px;
   justify-content: center;
   align-items: center;
   text-decoration: none;
@@ -74,7 +74,7 @@ body {
 }
 .logo a img {
   width: 100%;
-  /* margin: 10px auto; */
+  /* padding: 5px; */
   background-color: transparent;
 }
 .logo a:hover img{
@@ -146,7 +146,34 @@ body {
     width: 100%;
 }
 
-.navBox a.bottom{
+.paginationBox{
+  width: 100%;
+}
+
+.paginationBox a {
+  display: block;
+  width: 100%;
+  height: var(--sidePanelWidth);
+  /* aspect-ratio: 1 / 1; */
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border-bottom: solid var(--strokeThick) var(--white);
+  transition: all 0.5s ease;
+  background-color: var(--black);
+  overflow-y: hidden;
+}
+.paginationBox a:hover {
+  padding: 5px;
+}
+.paginationBox a img {
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--black);
+}
+.paginationBox a.bottom{
     border-bottom: none;
     border-top: solid var(--strokeThick) var(--white);
 }
@@ -176,6 +203,11 @@ body {
 .previewThumbnail img {
   width: 100%;
   height: auto;
+  display: block;
+}
+.previewThumbnail iframe {
+  width: 100%;
+  aspect-ratio: 16/9;;
   display: block;
 }
 .previewInfo {

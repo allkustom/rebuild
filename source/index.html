@@ -1,0 +1,113 @@
+---
+title: allkustom portfolio
+---
+
+    {% assign works = collections.work %}
+    {% for work in works %}
+    <div
+      class="work"
+      >
+      <a href="{{ work.url }}">
+        <div class="previewImgBox">
+          <img src="{{work.data.photo}}"/>
+        </div>
+      </a>
+      <a href="{{ work.url }}">
+        <div class="previewTextBox">
+          <h4>
+            {{work.data.title}}
+          </h4>
+          <p>
+              {{work.data.mediumTech}} / {{work.data.projectDate}} 
+          </p>
+        </div>
+      </a>
+
+    </div>
+  {% endfor %}
+
+
+<!-- <div class="recCont">
+  <h1>How about this?</h1>
+
+<div id="picks">
+  <section id="morning-slot"><h2>Breakfast</h2><div class="card"></div></section>
+  <section id="lunch-slot"><h2>Lunch</h2><div class="card"></div></section>
+  <section id="dinner-slot"><h2>Dinner</h2><div class="card"></div></section>
+</div>
+
+<button id="reroll" type="button">Other Combinations</button>
+<ul id="recipe-candidates" hidden>
+  {% for r in collections.recipe %}
+  <li class="candidate"
+      data-id="{{ r.url }}"
+      data-url="{{ r.url }}"
+      data-title="{{ r.data.title | escape }}"
+      data-desc="{{ r.data.description | escape }}"
+      data-when='{{ r.data.when | jsonify | escape }}'
+      data-style='{{ r.data.style | jsonify | escape }}'
+      data-tags='{{ r.data.tags | jsonify | escape }}'
+      data-photo="{{ r.data.photo | url }}""
+       >
+  </li>
+  {% endfor %}
+</ul>
+</div>
+
+
+
+<div id="recipeCont">
+  <div class="controlBox">
+  <div class="controls">
+    <button id="sortTitle">Recipe Name</button>
+    <button id="sortIndex">Time Takes</button>
+  </div>
+  <div class="controls">
+    <button id="num1" data-num="1">All</button>
+    <button id="num2" data-num="2">Breakfast</button>
+    <button id="num3" data-num="3">Lunch/Dinner</button>
+    <button id="num4" data-num="4">Dessert</button>
+  </div>
+  </div>
+
+
+  <div id="recipeContGrid">
+    {% assign recipes = collections.recipe %} {% for recipe in recipes %}
+    <div
+      class="recipe"
+      data-index="{{ recipe.data.index }}"
+      data-title="{{ recipe.data.title }}"
+      data-style="{{ recipe.data.style }}"
+      data-time="{{ recipe.data.time }}"
+      data-when="{{ recipe.data.when }}"
+      hidden
+      >
+      <a href="{{ recipe.url }}">
+        <div class="previewImgBox">
+          <img src="{{recipe.data.photo}}"/>
+        </div>
+      </a>
+      <a href="{{ recipe.url }}">
+        <div class="previewTextBox">
+          <h4>
+            {{recipe.data.title}}
+          </h4>
+          <p>
+              {{recipe.data.style}} / {{recipe.data.time}} mins
+          </p>
+        </div>
+      </a>
+
+    </div>
+  {% endfor %}
+  </div>
+
+
+</div>
+
+
+
+<script>
+ 
+
+</script> -->
