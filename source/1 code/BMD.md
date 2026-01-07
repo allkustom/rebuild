@@ -1,6 +1,6 @@
 ---
 title: BMD Battery Managemannt Division
-photo: 
+photo: /0 assets/basic/3D Printing_icon.png
 video: https://www.youtube.com/embed/nqYUuZSCHp4?si=ULfaZ5-pGnBpozhm
 mediumTech:
   - After Effects
@@ -38,5 +38,5 @@ span2's content
 {% endmainContent %}
 
 {% mainContent "1" %}
-<img src="/0 assets/basic/" alt="" />
+<img src="/0 assets/basic/3D Printing_icon.png" alt="" />
 {% endmainContent %}
