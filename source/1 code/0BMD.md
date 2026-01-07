@@ -19,13 +19,14 @@ index: 0
 This is project description apge
 
 <!--desc-->
-<div class="spacer spacer--none"></div>
+{% spacer %}
 
 {% mainContent  %}
 **And this is main sections**
 Get it?
 {% endmainContent  %}
 
+{% spacer "short"%}
 
 {% mainContent "2" %}
 # Span 2
