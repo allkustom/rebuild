@@ -34,5 +34,5 @@ span2's content
 {% endmainContent %}
 
 {% mainContent "1" %}
-<img src="/0 assets/basic/3D Printing_icon.png" alt="" />
+<img src="/0 assets/basic/Arduino_icon.png" alt="" />
 {% endmainContent %}
