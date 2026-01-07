@@ -19,23 +19,16 @@ index: 0
 This is project description apge
 
 <!--desc-->
-{% spacer %}
+<div class="spacer"><div class="spacerLine spacerLine--short"></div></div>
 
-{% spacer "long" %}
-{% spacer "short" %}
 
-{% mainContent  %}
+
 **And this is main sections**
 Get it?
-{% endmainContent  %}
+<div class="spacer spacer--none"></div>
 
-{% spacer "short" %}
 
-{% mainContent "2" %}
 # Span 2
 span2's content
-{% endmainContent %}
 
-{% mainContent "1" %}
 <img src="/0 assets/basic/Arduino_icon.png" alt="" />
-{% endmainContent %}

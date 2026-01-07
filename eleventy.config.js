@@ -41,29 +41,29 @@ export default function (eleventyConfig) {
   // shortcode for md
   // 1. spacer shortcode
   // 2. mainContent Styles
-eleventyConfig.addShortcode("spacer", (variant = "default") => {
-  const allowed = ["default", "long", "short", "none"];
-  const v = allowed.includes(variant) ? variant : "default";
+// eleventyConfig.addShortcode("spacer", (variant = "default") => {
+//   const allowed = ["default", "long", "short", "none"];
+//   const v = allowed.includes(variant) ? variant : "default";
 
-  if (v === "none") {
-    return `<div class="spacer spacer--none"></div>`;
-  }
+//   if (v === "none") {
+//     return `<div class="spacer spacer--none"></div>`;
+//   }
 
-  return `<div class="spacer spacer--${v}"><div class="spacerLine spacerLine--${v}"></div></div>`;
-});
-  // paired shortcode for Main Block (grid span wrapper)
-  // EX.
-  // {% mainBlock "2" %} ... {% endmainBlock %}
-  // {% mainBlock "3" %} ... {% endmainBlock %}
-  // {% mainBlock "full" %} ... {% endmainBlock %}
-  eleventyConfig.addPairedShortcode("mainContent", (content, span = "3") => {
-    const allowed = ["2", "1", "full"];
-    const s = allowed.includes(String(span)) ? String(span) : "3";
+//   return `<div class="spacer spacer--${v}"><div class="spacerLine spacerLine--${v}"></div></div>`;
+// });
+//   // paired shortcode for Main Block (grid span wrapper)
+//   // EX.
+//   // {% mainBlock "2" %} ... {% endmainBlock %}
+//   // {% mainBlock "3" %} ... {% endmainBlock %}
+//   // {% mainBlock "full" %} ... {% endmainBlock %}
+//   eleventyConfig.addPairedShortcode("mainContent", (content, span = "3") => {
+//     const allowed = ["2", "1", "full"];
+//     const s = allowed.includes(String(span)) ? String(span) : "3";
 
-    const innerHtml = md.render(content);
+//     const innerHtml = md.render(content);
 
-    return `<div class="mainContent mainContent--${s}">${innerHtml}</div>`;
-  });
+//     return `<div class="mainContent mainContent--${s}">${innerHtml}</div>`;
+//   });
 
   // Active Liquid inside Markdown
   return {

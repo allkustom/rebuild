@@ -51,24 +51,11 @@ layout: base.html
     <div class="descriptionBox">
       <h1>Project Description</h1>
                     {{page.excerpt | md }}
-
-      <!-- <strong>
-        {% if descriptionHead %}
-        {{ descriptionHead }}
-        {% endif %}
-      </strong>
-      <br />
-      <br />
-      <p>
-        {% if descriptionContent  %}
-        {{ descriptionContent }}
-        {% endif %}
-      </p> -->
-
     </div>
+    
+    <div class="mainContent">
       {{content | stripExcerpt: page.excerpt}}
-    <!-- <div class="mainContent">
-    </div>  -->
+    </div> 
   </div>
 </div>
   <!-- <div class="spacer"><div class="spacerLine"></div></div> -->

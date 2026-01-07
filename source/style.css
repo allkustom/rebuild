@@ -299,7 +299,7 @@ body {
   grid-column: span 3;
   width: 100%;
 }
-.mainContent--1 {
+/* .mainContent--1 {
   grid-column: span 1;
 }
 .mainContent--2 {
@@ -307,7 +307,7 @@ body {
 }
 .mainContent--full {
   grid-column: 1 / -1;
-}
+} */
 
 .mainContent img {
   width: 100%;
