@@ -21,12 +21,15 @@ This is project description apge
 <!--desc-->
 {% spacer %}
 
+{% spacer "long" %}
+{% spacer "short" %}
+
 {% mainContent  %}
 **And this is main sections**
 Get it?
 {% endmainContent  %}
 
-{% spacer "short"%}
+{% spacer "short" %}
 
 {% mainContent "2" %}
 # Span 2
