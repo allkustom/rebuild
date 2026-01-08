@@ -8,6 +8,7 @@
   --sidePanelWidth: 65px;
   --topRightBorderRadius: 0px;
   --gridGap: 10px;
+  --gridGapHalf: 5px;
 }
 body {
   display: flex;
@@ -20,29 +21,33 @@ body {
   box-sizing: border-box;
   background-color: var(--black);
 }
-.spacer {
-  grid-column: span 3;
+
+.spacer{
   width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: flex;
-  padding: 7.5vh;
-}
-.spacerLine {
-  width: var(--strokeThick);
-  height: 20vh;
-  background-color: var(--white);
+
+  padding: 10vh;
+  position: relative;
 }
 
-.spacerLine--short {
-  height: 10vh;
+.spacer::before{
+  content: none;
 }
-.spacerLine--long {
-  height: 30vh;
+
+.spacer.short::before,
+.spacer.mid::before,
+.spacer.long::before{
+  content:"";
+  width: var(--strokeThick);
+  background-color: var(--white);
+  border-radius: 999px;
 }
-.spacer--none {
-  padding: 7.5vh;
-}
+
+.spacer.short::before{ height: 10vh; }
+.spacer.mid::before  { height: 20vh; }
+.spacer.long::before { height: 30vh; }
 
 /* Side Panel */
 .sidePanel {
@@ -135,13 +140,13 @@ body {
   background-color: var(--black);
 }
 
-.navBox a:hover img {
+/* .navBox a:hover img {
   display: none;
-}
+} */
 
-.navBox a .navDetails {
+.navDetails {
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-size: 16pt;
   margin-top: 10px;
   writing-mode: vertical-rl;
@@ -151,6 +156,11 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
+.sectionIndicator{
+  font-weight: bold;
+  color: var(--white);
+}
+
 .sideBot {
   width: 100%;
 }
@@ -164,7 +174,7 @@ body {
   width: 100%;
   height: var(--sidePanelWidth);
   /* aspect-ratio: 1 / 1; */
-  padding: 10px;
+  padding: 20px;
   justify-content: center;
   align-items: center;
   text-decoration: none;
@@ -174,7 +184,7 @@ body {
   overflow-y: hidden;
 }
 .paginationBox a:hover {
-  padding: 5px;
+  padding: 15px;
 }
 .paginationBox a img {
   width: 100%;
@@ -193,9 +203,7 @@ body {
 .contentWrapper {
   margin-left: var(--sidePanelWidth);
   width: 100%;
-}
-.contentBox {
-  margin: 20vh 15vw;
+  padding: 20vh 15vw;
 }
 
 /* Project Preview - Thumbnail, infos */
@@ -207,11 +215,11 @@ body {
 .previewThumbnail {
   grid-column: span 2;
   width: 100%;
+  height: fit-content;
   border: solid var(--strokeThick) var(--white);
 }
 .previewThumbnail img {
   width: 100%;
-  height: auto;
   display: block;
 }
 .previewThumbnail iframe {
@@ -253,17 +261,29 @@ body {
 
 /* Main content box - Description, main contents */
 .mainBox {
-  display: grid;
+  width: 100%;
+  /* display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--gridGap);
+  gap: var(--gridGap); */
 }
 .mainBox h1 {
-  font-size: 24pt;
+  font-size: 2em;
   font-weight: 700;
   margin-bottom: 20px;
 }
+.mainBox h2 {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.mainBox h3 {
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
 .mainBox p {
-  font-size: 12pt;
+  font-size: 1em;
   font-weight: 400;
   line-height: 1.5em;
   color: var(--whiteSecond);
@@ -273,44 +293,51 @@ body {
   color: var(--white);
 }
 
-/* Description box */
-.descriptionBox {
-  grid-column: span 3;
-  width: 100%;
-}
-/* .descriptionBox h1 {
-  font-size: 24pt;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-.descriptionBox p {
-  font-size: 12pt;
-  font-weight: 400;
-  line-height: 1.5em;
+.mainBox li {
+  margin-left: 25px;
   color: var(--whiteSecond);
 }
-.descriptionBox strong {
-  font-weight: 600;
-  color: var(--white);
-} */
+
+/* Description box */
+.descriptionBox {
+  width: 100%;
+}
 
 /* MainContent */
 .mainContent {
-  grid-column: span 3;
   width: 100%;
 }
-/* .mainContent--1 {
-  grid-column: span 1;
-}
-.mainContent--2 {
-  grid-column: span 2;
-}
-.mainContent--full {
-  grid-column: 1 / -1;
-} */
-
 .mainContent img {
   width: 100%;
   height: auto;
   display: block;
+  border: solid var(--strokeThick) var(--white);
+  background-color: transparent;
+}
+
+.contentBox {
+  width: 100%;
+  padding: 10px;
+}
+
+.one {
+  display: grid;
+  gap: var(--gridGap);
+  margin: var(--gridGap) 0;
+  grid-template-columns: repeat(1, 1fr);
+  padding: 0px;
+}
+.two {
+  display: grid;
+  gap: var(--gridGap);
+  margin: var(--gridGap) 0;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0px;
+}
+.three {
+  display: grid;
+  gap: var(--gridGap);
+  margin: var(--gridGap) 0;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0px;
 }

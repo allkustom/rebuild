@@ -1,0 +1,104 @@
+---
+title: Works
+permalink: /works/
+---
+
+
+<!-- Add this section more based on the work catergory -->
+<!-- {% assign codeWorks = collections.worksByGroup["0 code"] %}
+{% assign leatherWorks = collections.worksByGroup["1 leather"] %}
+
+{%- if codeWorks and codeWorks.size > 0 -%}
+  <div id="group-0-code"></div>
+  <h2 class="groupTitle">code</h2>
+
+  {%- for work in codeWorks -%}
+    <div class="work">
+      <a href="{{ work.url }}">
+        <div class="previewImgBox">
+          {% if work.data.photo %}
+            <img src="{{ work.data.photo }}" alt="{{ work.data.title | escape }}" />
+          {% endif %}
+        </div>
+      </a>
+
+      <a href="{{ work.url }}">
+        <div class="previewTextBox">
+          <h4>{{ work.data.title }}</h4>
+          <p>
+            {% if work.data.mediumTech %}
+              {{ work.data.mediumTech | join: " / " }}
+            {% endif %}
+            {% if work.data.projectDate %}
+              {% if work.data.mediumTech %} / {% endif %}
+              {{ work.data.projectDate }}
+            {% endif %}
+          </p>
+        </div>
+      </a>
+    </div>
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if leatherWorks and leatherWorks.size > 0 -%}
+  <div id="group-1-leather"></div>
+  <h2 class="groupTitle">leather</h2>
+
+  {%- for work in leatherWorks -%}
+    <div class="work">
+      <a href="{{ work.url }}">
+        <div class="previewImgBox">
+          {% if work.data.photo %}
+            <img src="{{ work.data.photo }}" alt="{{ work.data.title | escape }}" />
+          {% endif %}
+        </div>
+      </a>
+
+      <a href="{{ work.url }}">
+        <div class="previewTextBox">
+          <h4>{{ work.data.title }}</h4>
+          <p>
+            {% if work.data.mediumTech %}
+              {{ work.data.mediumTech | join: " / " }}
+            {% endif %}
+            {% if work.data.projectDate %}
+              {% if work.data.mediumTech %} / {% endif %}
+              {{ work.data.projectDate }}
+            {% endif %}
+          </p>
+        </div>
+      </a>
+    </div>
+  {%- endfor -%}
+{%- endif -%} -->
+
+{% for g in collections.workGroups %}
+  <h2 id="{{ g.anchor }}" class="groupTitle">{{ g.label }}</h2>
+
+  {% for work in g.items %}
+    <div class="work">
+      <a href="{{ work.url }}">
+        <div class="previewImgBox">
+          {% if work.data.photo %}
+            <img src="{{ work.data.photo }}" alt="{{ work.data.title | escape }}" />
+          {% endif %}
+        </div>
+      </a>
+
+      <a href="{{ work.url }}">
+        <div class="previewTextBox">
+          <h4>{{ work.data.title }}</h4>
+          <p>
+            {% if work.data.mediumTech %}
+              {{ work.data.mediumTech | join: " / " }}
+            {% endif %}
+            {% if work.data.projectDate %}
+              {% if work.data.mediumTech %} / {% endif %}
+              {{ work.data.projectDate }}
+            {% endif %}
+          </p>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+{% endfor %}

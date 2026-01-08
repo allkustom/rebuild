@@ -1,3 +1,148 @@
+// import { HtmlBasePlugin } from "@11ty/eleventy";
+// import markdownIt from "markdown-it";
+
+// export default function (eleventyConfig) {
+//   // input directory
+//   eleventyConfig.setInputDirectory("source");
+//   eleventyConfig.addPlugin(HtmlBasePlugin);
+
+//   // passthrough
+//   eleventyConfig.addPassthroughCopy("source/**/*.png");
+//   eleventyConfig.addPassthroughCopy("source/**/*.jpg");
+//   eleventyConfig.addPassthroughCopy("source/**/*.PNG");
+//   eleventyConfig.addPassthroughCopy("source/**/*.JPG");
+//   eleventyConfig.addPassthroughCopy("source/**/*.css");
+//   eleventyConfig.addPassthroughCopy("source/**/*.js");
+
+//   // global layout
+//   eleventyConfig.addGlobalData("layout", "base.html");
+
+//   // HTML allow for keeping HTML in Markdown files
+//   const md = markdownIt({ html: true, breaks: true, linkify: true });
+//   eleventyConfig.setLibrary("md", md);
+
+//   // excerpt를 템플릿에서 HTML로 렌더링하기 위한 필터
+//   eleventyConfig.addFilter("md", (str = "") => md.render(str));
+
+//   // ✅ Excerpt 활성화: <!--desc--> 앞을 description(excerpt)로 사용
+//   eleventyConfig.setFrontMatterParsingOptions({
+//     excerpt: true,
+//     excerpt_separator: "<!--desc-->",
+//   });
+
+//   // ✅ content에서 excerpt(=page.excerpt) 부분을 제거해서 main만 남기기
+//   eleventyConfig.addFilter("stripExcerpt", (html = "", excerptMd = "") => {
+//     const excerptHtml = md.render(excerptMd).trim();
+//     if (!excerptHtml) return html;
+//     return html.replace(excerptHtml, "").trim(); // 첫 1회 제거
+//   });
+
+//   // ============================================================
+//   // ✅ 그룹 컬렉션: source/1 collections/{GROUP}/...md
+//   //   GROUP 예: "0 code", "1 leather"
+//   //   각 GROUP 안에서 파일명 앞 숫자로 정렬
+//   // ============================================================
+//   function normPath(p = "") {
+//     return String(p).replace(/\\/g, "/"); // windows 대비
+//   }
+
+//   function getFilePrefixNumberFromInputPath(inputPath) {
+//     const p = normPath(inputPath);
+//     const filename = (p.split("/").pop() || "").trim();
+//     const m = filename.match(/^(\d+)/); // 파일명 맨 앞 연속 숫자
+//     return m ? Number(m[1]) : Number.POSITIVE_INFINITY; // 숫자 없으면 뒤로
+//   }
+
+//   // inputPath에서 그룹 폴더명 추출
+//   // 예: source/1 collections/0 code/000 BMD.md -> "0 code"
+//   // 예: source/1 collections/1 leather/sub/010 X.md -> "1 leather"
+//   function getGroupFromInputPath(inputPath) {
+//     const parts = normPath(inputPath).split("/").filter(Boolean);
+
+//     // ["source","1 collections","0 code","000 BMD.md"] 같은 형태를 기대
+//     const idx = parts.indexOf("1 collections");
+//     if (idx === -1) return "";
+
+//     return parts[idx + 1] || "";
+//   }
+
+//   // ✅ source/1 collections 아래의 모든 md를 그룹별로 묶어서 반환
+//   eleventyConfig.addCollection("worksByGroup", (collectionApi) => {
+//     const all = collectionApi.getFilteredByGlob("source/1 collections/**/*.md");
+
+//     const grouped = {};
+//     for (const item of all) {
+//       const key = getGroupFromInputPath(item.inputPath);
+//       if (!key) continue;
+
+//       if (!grouped[key]) grouped[key] = [];
+//       grouped[key].push(item);
+//     }
+
+//     // 그룹 내부 정렬(파일명 숫자 기준)
+//     for (const key of Object.keys(grouped)) {
+//       grouped[key].sort(
+//         (a, b) =>
+//           getFilePrefixNumberFromInputPath(a.inputPath) -
+//           getFilePrefixNumberFromInputPath(b.inputPath)
+//       );
+//     }
+
+//     return grouped; // Liquid: collections.worksByGroup["0 code"]
+//   });
+
+//   // 템플릿에서 현재 페이지 그룹키 얻기: page.inputPath | groupKeyFromInputPath
+//   eleventyConfig.addFilter("groupKeyFromInputPath", (inputPath = "") => {
+//     return getGroupFromInputPath(inputPath);
+//   });
+
+//   // ============================================================
+//   // ✅ prev/next (랩어라운드) 필터
+//   // ============================================================
+//   eleventyConfig.addFilter("prevByUrl", (items, currentUrl) => {
+//     if (!Array.isArray(items) || !items.length) return null;
+
+//     const i = items.findIndex((it) => it.url === currentUrl);
+//     if (i === -1) return null;
+
+//     const prevIndex = (i - 1 + items.length) % items.length;
+//     return items[prevIndex];
+//   });
+
+//   eleventyConfig.addFilter("nextByUrl", (items, currentUrl) => {
+//     if (!Array.isArray(items) || !items.length) return null;
+
+//     const i = items.findIndex((it) => it.url === currentUrl);
+//     if (i === -1) return null;
+
+//     const nextIndex = (i + 1) % items.length;
+//     return items[nextIndex];
+//   });
+
+//   // ============================================================
+//   // (선택) shortcode들 — 필요하면 주석 해제해서 사용
+//   // ============================================================
+//   // eleventyConfig.addShortcode("spacer", (variant = "default") => {
+//   //   const allowed = ["default", "long", "short", "none"];
+//   //   const v = allowed.includes(variant) ? variant : "default";
+//   //   if (v === "none") return `<div class="spacer spacer--none"></div>`;
+//   //   return `<div class="spacer spacer--${v}"><div class="spacerLine spacerLine--${v}"></div></div>`;
+//   // });
+
+//   // eleventyConfig.addPairedShortcode("mainContent", (content, span = "3") => {
+//   //   const allowed = ["1", "2", "3", "full"];
+//   //   const s = allowed.includes(String(span)) ? String(span) : "3";
+//   //   const innerHtml = md.render(content).trim();
+//   //   return `<div class="mainContent mainContent--${s}">${innerHtml}</div>`;
+//   // });
+
+//   // Active Liquid inside Markdown
+//   return {
+//     markdownTemplateEngine: "liquid",
+//   };
+// }
+
+
 import { HtmlBasePlugin } from "@11ty/eleventy";
 import markdownIt from "markdown-it";
 
@@ -18,7 +163,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addGlobalData("layout", "base.html");
 
   // HTML allow for keeping HTML in Markdown files
-  // (excerpt를 HTML로 렌더링할 때도 쓰기 위해 breaks/linkify 추가는 선택)
   const md = markdownIt({ html: true, breaks: true, linkify: true });
   eleventyConfig.setLibrary("md", md);
 
@@ -38,32 +182,149 @@ export default function (eleventyConfig) {
     return html.replace(excerptHtml, "").trim(); // 첫 1회 제거
   });
 
-  // shortcode for md
-  // 1. spacer shortcode
-  // 2. mainContent Styles
-// eleventyConfig.addShortcode("spacer", (variant = "default") => {
-//   const allowed = ["default", "long", "short", "none"];
-//   const v = allowed.includes(variant) ? variant : "default";
+  // ============================================================
+  // ✅ 그룹 컬렉션: source/1 collections/{GROUP}/...md
+  //   GROUP 예: "0 code", "1 leather"
+  //   각 GROUP 안에서 파일명 앞 숫자로 정렬
+  // ============================================================
+  function normPath(p = "") {
+    return String(p).replace(/\\/g, "/"); // windows 대비
+  }
 
-//   if (v === "none") {
-//     return `<div class="spacer spacer--none"></div>`;
-//   }
+  function getFilePrefixNumberFromInputPath(inputPath) {
+    const p = normPath(inputPath);
+    const filename = (p.split("/").pop() || "").trim();
+    const m = filename.match(/^(\d+)/); // 파일명 맨 앞 연속 숫자
+    return m ? Number(m[1]) : Number.POSITIVE_INFINITY; // 숫자 없으면 뒤로
+  }
 
-//   return `<div class="spacer spacer--${v}"><div class="spacerLine spacerLine--${v}"></div></div>`;
-// });
-//   // paired shortcode for Main Block (grid span wrapper)
-//   // EX.
-//   // {% mainBlock "2" %} ... {% endmainBlock %}
-//   // {% mainBlock "3" %} ... {% endmainBlock %}
-//   // {% mainBlock "full" %} ... {% endmainBlock %}
-//   eleventyConfig.addPairedShortcode("mainContent", (content, span = "3") => {
-//     const allowed = ["2", "1", "full"];
-//     const s = allowed.includes(String(span)) ? String(span) : "3";
+  // inputPath에서 그룹 폴더명 추출
+  function getGroupFromInputPath(inputPath) {
+    const parts = normPath(inputPath).split("/").filter(Boolean);
+    const idx = parts.indexOf("1 collections");
+    if (idx === -1) return "";
+    return parts[idx + 1] || "";
+  }
 
-//     const innerHtml = md.render(content);
+  // 그룹 키에서 정렬용 숫자(폴더명 앞 숫자) 추출: "0 code" -> 0
+  function groupOrderFromKey(groupKey = "") {
+    const m = String(groupKey).trim().match(/^(\d+)/);
+    return m ? Number(m[1]) : Number.POSITIVE_INFINITY;
+  }
 
-//     return `<div class="mainContent mainContent--${s}">${innerHtml}</div>`;
-//   });
+  // "0 code" -> "0-code"
+  function slugify(str = "") {
+    return String(str)
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  // "leather goods" -> "Leather Goods"
+  function titleCase(str = "") {
+    return String(str)
+      .trim()
+      .split(/\s+/)
+      .map((w) => (w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : ""))
+      .join(" ");
+  }
+
+  // ✅ source/1 collections 아래의 모든 md를 그룹별로 묶어서 반환 (기존 유지)
+  eleventyConfig.addCollection("worksByGroup", (collectionApi) => {
+    const all = collectionApi.getFilteredByGlob("source/1 collections/**/*.md");
+
+    const grouped = {};
+    for (const item of all) {
+      const key = getGroupFromInputPath(item.inputPath);
+      if (!key) continue;
+
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(item);
+    }
+
+    // 그룹 내부 정렬(파일명 숫자 기준)
+    for (const key of Object.keys(grouped)) {
+      grouped[key].sort(
+        (a, b) =>
+          getFilePrefixNumberFromInputPath(a.inputPath) -
+          getFilePrefixNumberFromInputPath(b.inputPath)
+      );
+    }
+
+    return grouped; // Liquid: collections.worksByGroup["0 code"]
+  });
+
+  // ✅ 템플릿에서 현재 페이지 그룹키 얻기
+  eleventyConfig.addFilter("groupKeyFromInputPath", (inputPath = "") => {
+    return getGroupFromInputPath(inputPath);
+  });
+
+  // ✅ 템플릿: groupKey -> 표시용 라벨 ("0 code" => "Code")
+  eleventyConfig.addFilter("groupLabel", (groupKey = "") => {
+    const raw = String(groupKey).replace(/^\d+\s*/, ""); // 앞 숫자 제거
+    return titleCase(raw);
+  });
+
+  // ✅ 템플릿: groupKey -> 앵커 id ("0 code" => "group-0-code")
+  eleventyConfig.addFilter("groupAnchor", (groupKey = "") => {
+    return `group-${slugify(groupKey)}`;
+  });
+
+  // ✅ (추가) workCollection 페이지에서 그룹을 하드코딩하지 않도록
+  // collections.workGroups = [{ key, label, anchor, items }, ...]
+  eleventyConfig.addCollection("workGroups", (collectionApi) => {
+    const all = collectionApi.getFilteredByGlob("source/1 collections/**/*.md");
+
+    const grouped = {};
+    for (const item of all) {
+      const key = getGroupFromInputPath(item.inputPath);
+      if (!key) continue;
+
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(item);
+    }
+
+    for (const key of Object.keys(grouped)) {
+      grouped[key].sort(
+        (a, b) =>
+          getFilePrefixNumberFromInputPath(a.inputPath) -
+          getFilePrefixNumberFromInputPath(b.inputPath)
+      );
+    }
+
+    return Object.keys(grouped)
+      .sort((a, b) => groupOrderFromKey(a) - groupOrderFromKey(b))
+      .map((key) => ({
+        key,
+        label: titleCase(String(key).replace(/^\d+\s*/, "")),
+        anchor: `group-${slugify(key)}`,
+        items: grouped[key],
+      }));
+  });
+
+  // ============================================================
+  // ✅ prev/next (랩어라운드) 필터
+  // ============================================================
+  eleventyConfig.addFilter("prevByUrl", (items, currentUrl) => {
+    if (!Array.isArray(items) || !items.length) return null;
+
+    const i = items.findIndex((it) => it.url === currentUrl);
+    if (i === -1) return null;
+
+    const prevIndex = (i - 1 + items.length) % items.length;
+    return items[prevIndex];
+  });
+
+  eleventyConfig.addFilter("nextByUrl", (items, currentUrl) => {
+    if (!Array.isArray(items) || !items.length) return null;
+
+    const i = items.findIndex((it) => it.url === currentUrl);
+    if (i === -1) return null;
+
+    const nextIndex = (i + 1) % items.length;
+    return items[nextIndex];
+  });
 
   // Active Liquid inside Markdown
   return {
