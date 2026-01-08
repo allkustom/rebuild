@@ -12,7 +12,6 @@ projectDate:
 size:
   - 29000*1200 px
   - 1m 20s
-index: 1
 ---
 
 **Hello world**

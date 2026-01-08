@@ -1,6 +1,6 @@
 ---
 title: Airpod Leather case
-photo: /0 assets/basic/3D Printing_icon.png
+photo: /0 assets/basic/Leather Crafting_icon.png
 video: https://www.youtube.com/embed/nqYUuZSCHp4?si=ULfaZ5-pGnBpozhm
 mediumTech:
   - After Effects
@@ -12,7 +12,6 @@ projectDate:
 size:
   - 29000*1200 px
   - 1m 20s
-index: 0
 ---
 
 **ld**

@@ -8,28 +8,32 @@ permalink: /
   <p>자기소개(한두 문단), 작업 방향, 관심 분야 등</p>
 </section>
 
-<nav class="homeNav">
-  <a href="/works/">Works</a>
-  <a href="/bio/">Bio</a>
-  <a href="/contact/">Contact</a>
-</nav>
 
-{# 선택: selected works를 간단히 보여주고 싶다면 (각 그룹에서 2개씩) #}
-{% assign codeWorks = collections.worksByGroup["0 code"] %}
-{% assign leatherWorks = collections.worksByGroup["1 leather"] %}
+{% assign selectedList = selectedWorks.selectedWorksPaths %}
 
 <section class="selectedWorks">
   <h2>Selected Works</h2>
 
-  {% if codeWorks %}
-    {% for work in codeWorks limit:2 %}
-      <a href="{{ work.url }}">{{ work.data.title }}</a><br/>
-    {% endfor %}
-  {% endif %}
+  {% for selected in selectedList %}
+    {% assign found = nil %}
 
-  {% if leatherWorks %}
-    {% for work in leatherWorks limit:2 %}
-      <a href="{{ work.url }}">{{ work.data.title }}</a><br/>
+    {% for g in collections.workGroups %}
+      {% for work in g.items %}
+        {% assign selectedPath = work.inputPath | workRelPath %}
+        {% if selectedPath == selected %}
+          {% assign found = work %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% if found %}{% break %}{% endif %}
     {% endfor %}
-  {% endif %}
+
+    {% if found %}
+      <a href="{{ found.url }}">
+        <img src="{{ found.data.photo }}" alt="{{ found.data.title | escape }}" />
+        {{ found.data.title }}
+      </a>
+
+    {% endif %}
+  {% endfor %}
 </section>
